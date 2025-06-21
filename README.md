@@ -1,3 +1,8 @@
+## ✨ Live Demo
+
+![Crewmind AI Assistant Demo](./crewmind-demo.gif)
+
+---
 
 # 🧪 Crewmind.ai – Technical Challenge
 
