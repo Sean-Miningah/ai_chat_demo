@@ -29,7 +29,11 @@ services:
       - "8000:8000"
     environment:
       MONGODB_URL: mongodb://root:password@mongodb:27017/ai_chat?authSource=admin
+      LLM_URL: <API_URL_HERE>
+      LLM_Model: openapi/gpt-3.5-turbo
+      OPENAI_API_KEY: <KEY_HERE>
       DATABASE_NAME: ai_chat
+      COLLECTION_NAME: questions
     depends_on:
       - mongodb
 
