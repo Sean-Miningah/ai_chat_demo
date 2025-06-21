@@ -25,7 +25,7 @@ You are free to structure the code however you prefer, but the following feature
 ### 2. Backend – FastAPI
 - Receive the question sent from the frontend
 - Store the question in a **MongoDB** collection (local or cloud-based)
-- Return a fixed simulated response:  
+- Return a fixed simulated response:
   `"Thanks for your question, I’ll think about it."`
 
 ---
@@ -58,7 +58,7 @@ You are free to structure the code however you prefer, but the following feature
 
 ## 📅 Deadline
 
-Please submit your GitHub link in maximum 3 days time period.  
+Please submit your GitHub link in maximum 3 days time period.
 We’ll follow up shortly after reviewing your work.
 
 ---
@@ -73,4 +73,83 @@ We are not looking for perfection, but rather:
 
 Thank you again – we look forward to discovering your work!
 
+## 🚀 How to Run the Solution
 
+This project is containerized and can be run easily using Docker Compose.
+
+### Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### 1. Configuration
+
+To enable dynamic AI responses, you need to configure the backend with your LLM provider credentials.
+
+Open the `docker-compose.yml` file and locate the `environment` section for the `backend` service. Replace the placeholder values (`<API_URL_HERE>`, `<KEY_HERE>`, etc.) with your actual credentials.
+
+**Example for OpenAI:**
+```yaml
+services:
+  # ...
+  backend:
+    # ...
+    environment:
+      MONGODB_URL: mongodb://root:password@mongodb:27017/ai_chat?authSource=admin
+      LLM_URL: https://api.openai.com/v1
+      LLM_Model: gpt-3.5-turbo
+      OPENAI_API_KEY: <YOUR_OPENAI_API_KEY>
+      DATABASE_NAME: ai_chat
+      COLLECTION_NAME: questions
+```
+
+- **`OPENAI_API_KEY`**: Your secret API key from OpenAI.
+- **`LLM_URL`**: The base URL for the API. For OpenAI, this is `https://api.openai.com/v1`.
+- **`LLM_Model`**: The model you wish to use, e.g., `gpt-3.5-turbo`.
+
+> **Note**: If you do not provide an `OPENAI_API_KEY`, the application will fall back to providing predefined dummy responses.
+
+### 2. Build and Run
+
+From the root directory of the project, execute the following command to build and start all services:
+
+```bash
+docker-compose up --build
+```
+
+### 3. Access the Application
+
+- **Frontend UI**: `http://localhost:3000`
+- **Backend API Docs**: `http://localhost:8000/docs`
+
+---
+
+## 🛠️ Technologies & Libraries Used
+
+This project is built with a modern, containerized stack:
+
+-   **Backend**:
+    -   **Framework**: FastAPI
+    -   **Language**: Python
+    -   **Database Driver**: PyMongo for MongoDB interaction.
+    -   **LLM Integration**: OpenAI Python SDK for dynamic response generation.
+    -   **Server**: Uvicorn ASGI server.
+
+-   **Frontend**:
+    -   **Framework**: React (with TypeScript) for a type-safe, component-based UI.
+    -   **Styling**: Tailwind CSS for rapid, utility-first styling.
+    -   **Build Tool**: Vite for a fast and modern development experience.
+
+-   **Database**:
+    -   MongoDB for flexible, document-based storage of conversation history.
+
+-   **Infrastructure**:
+    -   Docker & Docker Compose for consistent, isolated development and deployment environments.
+
+---
+
+## 🔮 What I'd Do With More Time
+
+-   **Comprehensive AI Logging and Monitoring**: To better understand and manage the AI's performance and usage, I would implement a structured logging system. This would involve capturing key events for each AI interaction (question, response, latency, errors) on the backend. This data could then be fed into a monitoring tool like Datadog or Grafana to create dashboards for tracking usage patterns, API costs, and error rates, which is crucial for operational management.
+
+---
