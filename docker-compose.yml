@@ -1,0 +1,40 @@
+services:
+  mongodb:
+    image: mongo:8.0
+    container_name: ai_chat_mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: ai_chat
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - mongo-config:/data/configdb
+
+  frontend:
+    build: ./frontend
+    container_name: ai_chat_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+  backend:
+    build: ./backend
+    container_name: ai_chat_backend
+    ports:
+      - "8000:8000"
+    environment:
+      MONGODB_URL: mongodb://root:password@mongodb:27017/ai_chat?authSource=admin
+      DATABASE_NAME: ai_chat
+    depends_on:
+      - mongodb
+
+volumes:
+  mongo-data:
+    driver: local
+  mongo-config:
+    driver: local
